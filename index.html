@@ -114,7 +114,7 @@ const employees = STAFF.filter(s => s.role==="employee");
 // ── Demo: pre-built questions (no API in demo) ────────────────
 function getDemoQuestions(assignee) {
   return [
-    { question:`When does this need to be done, ${assignee.name.split(" ")[0]}?`,
+    { question:"When does this need to be done, "+assignee.name.split(" ")[0]+"?",
       options:["Within the next 30 min","Before next patient block","By end of today","Tomorrow morning"] },
     { question:"How urgent is this task?",
       options:["Urgent — affects patient care now","High — needs doing soon","Normal — before end of shift","Low — when time allows"] },
@@ -128,7 +128,7 @@ function getDemoQuestions(assignee) {
 function getDemoTask(rawTask, assignee) {
   return {
     title: rawTask.length > 40 ? rawTask.slice(0,38)+"…" : rawTask,
-    description: `${assignee.name} needs to complete the following: ${rawTask}. Please follow standard dental office protocol and confirm when finished.`,
+    description: assignee.name+" needs to complete the following: "+rawTask+". Please follow standard dental office protocol and confirm when finished.",
     steps: [
       "Review the task requirements and gather needed supplies",
       "Complete the task per standard office protocol",
@@ -181,7 +181,7 @@ function SurveyQuestion({ question, index, total, onAnswer }) {
           <span style={{fontSize:11,color:G.tealMid,fontWeight:600}}>{Math.round(progress)}%</span>
         </div>
         <div style={{height:5,background:G.border,borderRadius:5,overflow:"hidden"}}>
-          <div className="progress-fill" style={{height:"100%",width:`${progress}%`,background:`linear-gradient(90deg,${G.teal},${G.tealBright})`,borderRadius:5}}/>
+          <div className="progress-fill" style={{height:"100%",width:progress+"%",background:"linear-gradient(90deg,"+G.teal+","+G.tealBright+")",borderRadius:5}}/>
         </div>
       </div>
       <div style={{display:"flex",gap:10,alignItems:"flex-start",marginBottom:18}}>
@@ -194,22 +194,22 @@ function SurveyQuestion({ question, index, total, onAnswer }) {
         {question.options.map((opt,i)=>{
           const isSel=sel===opt;
           return (
-            <button key={i} onClick={()=>pick(opt)} className={`opt-btn${isSel?" sel-teal":""}`}>
-              <div style={{width:20,height:20,borderRadius:"50%",flexShrink:0,border:`2px solid ${isSel?G.tealMid:G.border}`,background:isSel?G.tealMid:"transparent",display:"flex",alignItems:"center",justifyContent:"center",transition:"all .15s"}}>
+            <button key={i} onClick={()=>pick(opt)} className={"opt-btn"+(isSel?" sel-teal":"")}>
+              <div style={{width:20,height:20,borderRadius:"50%",flexShrink:0,border:isSel?"2px solid "+G.tealMid:"2px solid "+G.border,background:isSel?G.tealMid:"transparent",display:"flex",alignItems:"center",justifyContent:"center",transition:"all .15s"}}>
                 {isSel&&<div style={{width:7,height:7,borderRadius:"50%",background:"#fff"}}/>}
               </div>
               <span style={{fontSize:14,color:isSel?G.teal:G.text,fontWeight:isSel?500:400,lineHeight:1.4}}>{opt}</span>
             </button>
           );
         })}
-        <button onClick={()=>{setSel(null);setOther(true);}} className={`opt-btn${showOther?" sel-amber":""}`}>
-          <div style={{width:20,height:20,borderRadius:"50%",flexShrink:0,border:`2px solid ${showOther?G.accent:G.border}`,background:showOther?G.accent:"transparent",display:"flex",alignItems:"center",justifyContent:"center",transition:"all .15s"}}>
+        <button onClick={()=>{setSel(null);setOther(true);}} className={"opt-btn"+(showOther?" sel-amber":"")}>
+          <div style={{width:20,height:20,borderRadius:"50%",flexShrink:0,border:showOther?"2px solid "+G.accent:"2px solid "+G.border,background:showOther?G.accent:"transparent",display:"flex",alignItems:"center",justifyContent:"center",transition:"all .15s"}}>
             {showOther&&<div style={{width:7,height:7,borderRadius:"50%",background:"#fff"}}/>}
           </div>
           <span style={{fontSize:14,color:showOther?G.accent:G.sub,fontWeight:showOther?500:400}}>✏️  Something else — type your own</span>
         </button>
         {showOther&&(
-          <div className="fade-up" style={{border:`2px solid ${G.accent}`,borderRadius:13,background:G.accentLight,overflow:"hidden"}}>
+          <div className="fade-up" style={{border:"2px solid "+G.accent,borderRadius:13,background:G.accentLight,overflow:"hidden"}}>
             <textarea ref={otherRef} value={otherText} onChange={e=>setOtherText(e.target.value)}
               placeholder="Type your answer…" rows={3}
               onKeyDown={e=>e.key==="Enter"&&!e.shiftKey&&(e.preventDefault(),go())}
@@ -236,13 +236,13 @@ function Checklist({ steps, onUpdate, readonly=false }) {
         <span style={{fontSize:11,color:done===steps.length?G.green:G.sub,fontWeight:600}}>{done}/{steps.length} done {done===steps.length?"✓":""}</span>
       </div>
       <div style={{height:4,background:G.border,borderRadius:4,overflow:"hidden",marginBottom:10}}>
-        <div className="progress-fill" style={{height:"100%",width:`${pct}%`,background:done===steps.length?G.green:G.tealMid,borderRadius:4}}/>
+        <div className="progress-fill" style={{height:"100%",width:pct+"%",background:done===steps.length?G.green:G.tealMid,borderRadius:4}}/>
       </div>
       {steps.map((s,i)=>(
-        <div key={i} className={`check-item${s.done?" done-item":""}`}
+        <div key={i} className={"check-item"+(s.done?" done-item":"")}
           onClick={()=>{ if(readonly)return; const n=[...steps];n[i]={...n[i],done:!n[i].done};onUpdate(n); }}
           style={{cursor:readonly?"default":"pointer"}}>
-          <div style={{width:20,height:20,borderRadius:6,border:`2px solid ${s.done?G.tealMid:G.border}`,background:s.done?G.tealMid:"transparent",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,marginTop:1,transition:"all .15s"}}>
+          <div style={{width:20,height:20,borderRadius:6,border:s.done?"2px solid "+G.tealMid:"2px solid "+G.border,background:s.done?G.tealMid:"transparent",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,marginTop:1,transition:"all .15s"}}>
             {s.done&&<svg width="10" height="10" fill="none" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>}
           </div>
           <span style={{fontSize:13,color:s.done?G.sub:G.text,lineHeight:1.5,textDecoration:s.done?"line-through":"none"}}>{s.text}</span>
@@ -320,7 +320,7 @@ Make options specific to a dental office. Cover: deadline, urgency, scope, notif
       description: taskTpl?.description||rawTask,
       steps: normalizeSteps(taskTpl?.steps||[]),
       deadline, priority,
-      notes:[taskTpl?.notes,notifyNote?`Notify: ${notifyNote}`:""].filter(Boolean).join(" · ")||"",
+      notes:[taskTpl?.notes,notifyNote?"Notify: "+notifyNote:""].filter(Boolean).join(" · ")||"",
       patientContext: patientCtx,
     });
     setStep("preview");
@@ -359,7 +359,7 @@ Make options specific to a dental office. Cover: deadline, urgency, scope, notif
           <h2 style={{fontFamily:"'Cormorant Garamond',serif",fontSize:23,color:G.navy,fontWeight:600}}>New Task</h2>
           <p style={{fontSize:12,color:G.sub,marginTop:3}}>
             {step==="form"&&"Fill in the basics"}{step==="loading"&&"Building questions…"}
-            {step==="survey"&&`Clarifying for ${assignee?.name?.split(" ")[0]}`}
+            {step==="survey"&&"Clarifying for "+(assignee?.name?.split(" ")[0]||"")}
             {step==="preview"&&"Review before sending"}{step==="sent"&&"Task delivered!"}
           </p>
         </div>
@@ -372,7 +372,7 @@ Make options specific to a dental office. Cover: deadline, urgency, scope, notif
             <label style={{fontSize:11,fontWeight:600,color:G.sub,textTransform:"uppercase",letterSpacing:"1px"}}>Assign To</label>
             <div style={{display:"flex",gap:8,flexWrap:"wrap",marginTop:10}}>
               {employees.map(emp=>(
-                <button key={emp.id} onClick={()=>setAssignee(emp)} style={{display:"flex",alignItems:"center",gap:9,padding:"8px 12px",borderRadius:11,border:`2px solid ${assignee?.id===emp.id?G.tealMid:G.border}`,background:assignee?.id===emp.id?G.tealLight:"transparent",transition:"all .15s"}}>
+                <button key={emp.id} onClick={()=>setAssignee(emp)} style={{display:"flex",alignItems:"center",gap:9,padding:"8px 12px",borderRadius:11,border:assignee?.id===emp.id?"2px solid "+G.tealMid:"2px solid "+G.border,background:assignee?.id===emp.id?G.tealLight:"transparent",transition:"all .15s"}}>
                   <Avatar user={emp} size={28}/>
                   <div style={{textAlign:"left"}}>
                     <div style={{fontSize:13,fontWeight:500,color:G.text}}>{emp.name.split(" ")[0]}</div>
@@ -384,21 +384,21 @@ Make options specific to a dental office. Cover: deadline, urgency, scope, notif
           </div>
           <div>
             <label style={{fontSize:11,fontWeight:600,color:G.sub,textTransform:"uppercase",letterSpacing:"1px"}}>Task Description</label>
-            <textarea value={rawTask} onChange={e=>setRawTask(e.target.value)} placeholder={`e.g. "Prep room 2 for afternoon patients"`} rows={3}
-              style={{marginTop:10,width:"100%",padding:"13px 15px",borderRadius:13,border:`2px solid ${G.border}`,fontSize:14,color:G.text,lineHeight:1.6,background:G.card,transition:"border .18s"}}
+            <textarea value={rawTask} onChange={e=>setRawTask(e.target.value)} placeholder='e.g. "Prep room 2 for afternoon patients"' rows={3}
+              style={{marginTop:10,width:"100%",padding:"13px 15px",borderRadius:13,border:"2px solid "+G.border,fontSize:14,color:G.text,lineHeight:1.6,background:G.card,transition:"border .18s"}}
               onFocus={e=>e.target.style.borderColor=G.tealMid} onBlur={e=>e.target.style.borderColor=G.border}/>
           </div>
           <div>
             <label style={{fontSize:11,fontWeight:600,color:G.sub,textTransform:"uppercase",letterSpacing:"1px"}}>Patient / Appointment <span style={{fontWeight:400,fontSize:11}}>(optional)</span></label>
             <input value={patientCtx} onChange={e=>setPatCtx(e.target.value)} placeholder="e.g. John Smith — 2:30 PM crown prep, chair 3"
-              style={{marginTop:10,width:"100%",padding:"12px 15px",borderRadius:13,border:`2px solid ${G.border}`,fontSize:14,color:G.text,background:G.card,transition:"border .18s"}}
+              style={{marginTop:10,width:"100%",padding:"12px 15px",borderRadius:13,border:"2px solid "+G.border,fontSize:14,color:G.text,background:G.card,transition:"border .18s"}}
               onFocus={e=>e.target.style.borderColor=G.tealMid} onBlur={e=>e.target.style.borderColor=G.border}/>
           </div>
           <div>
             <label style={{fontSize:11,fontWeight:600,color:G.sub,textTransform:"uppercase",letterSpacing:"1px"}}>Repeat</label>
             <div style={{display:"flex",gap:8,marginTop:10,flexWrap:"wrap"}}>
               {FREQ_OPTS.map(f=>(
-                <button key={f} onClick={()=>setFreq(f)} style={{padding:"8px 16px",borderRadius:20,fontSize:13,fontWeight:500,border:`2px solid ${frequency===f?G.tealMid:G.border}`,background:frequency===f?G.tealLight:"transparent",color:frequency===f?G.teal:G.sub,transition:"all .15s"}}>{f}</button>
+                <button key={f} onClick={()=>setFreq(f)} style={{padding:"8px 16px",borderRadius:20,fontSize:13,fontWeight:500,border:frequency===f?"2px solid "+G.tealMid:"2px solid "+G.border,background:frequency===f?G.tealLight:"transparent",color:frequency===f?G.teal:G.sub,transition:"all .15s"}}>{f}</button>
               ))}
             </div>
           </div>
@@ -419,7 +419,7 @@ Make options specific to a dental office. Cover: deadline, urgency, scope, notif
 
       {step==="survey"&&questions.length>0&&(
         <div>
-          <div style={{display:"flex",alignItems:"center",gap:10,padding:"9px 13px",background:G.tealLight,borderRadius:10,marginBottom:16,border:`1px solid ${G.border}`}}>
+          <div style={{display:"flex",alignItems:"center",gap:10,padding:"9px 13px",background:G.tealLight,borderRadius:10,marginBottom:16,border:"1px solid "+G.border}}>
             <Avatar user={assignee} size={28}/>
             <span style={{fontSize:13,color:G.navy,fontWeight:500}}>{assignee.name}</span>
             <span style={{fontSize:12,color:G.sub}}>· {assignee.title}</span>
@@ -429,7 +429,7 @@ Make options specific to a dental office. Cover: deadline, urgency, scope, notif
               <span>🦷</span><span style={{fontSize:12,color:"#4a2060",fontWeight:500}}>{patientCtx}</span>
             </div>
           )}
-          <div style={{background:G.accentLight,borderRadius:10,padding:"10px 14px",marginBottom:22,borderLeft:`3px solid ${G.accent}`}}>
+          <div style={{background:G.accentLight,borderRadius:10,padding:"10px 14px",marginBottom:22,borderLeft:"3px solid "+G.accent}}>
             <p style={{fontSize:11,color:"#8a5500",fontWeight:600,textTransform:"uppercase",letterSpacing:".5px",marginBottom:3}}>Task</p>
             <p style={{fontSize:13,color:G.text}}>{rawTask}</p>
           </div>
@@ -443,7 +443,7 @@ Make options specific to a dental office. Cover: deadline, urgency, scope, notif
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill={G.green}/><path d="M8 12l3 3 5-5" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
             <span style={{fontSize:13,color:G.green,fontWeight:500}}>Task refined — ready to send</span>
           </div>
-          <div style={{background:G.card,borderRadius:16,padding:18,border:`1.5px solid ${G.border}`,marginBottom:18}}>
+          <div style={{background:G.card,borderRadius:16,padding:18,border:"1.5px solid "+G.border,marginBottom:18}}>
             <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",gap:10,marginBottom:10}}>
               <h3 style={{fontSize:16,fontWeight:600,color:G.navy,flex:1,lineHeight:1.35}}>{finalTask.title}</h3>
               <span style={{fontSize:11,fontWeight:700,padding:"3px 10px",borderRadius:20,flexShrink:0,background:priBg[finalTask.priority]||G.tealLight,color:priC[finalTask.priority]||G.teal}}>{finalTask.priority}</span>
@@ -461,17 +461,17 @@ Make options specific to a dental office. Cover: deadline, urgency, scope, notif
                 ))}
               </div>
             )}
-            <div style={{display:"flex",flexWrap:"wrap",gap:"8px 20px",paddingTop:10,borderTop:`1px solid ${G.border}`}}>
+            <div style={{display:"flex",flexWrap:"wrap",gap:"8px 20px",paddingTop:10,borderTop:"1px solid "+G.border}}>
               <span style={{fontSize:12,color:G.sub}}>📅 {finalTask.deadline}</span>
               <span style={{fontSize:12,color:G.sub}}>👤 {assignee.name}</span>
               {frequency!=="None"&&<span style={{fontSize:12,color:G.teal}}>♻️ {frequency}</span>}
             </div>
-            {finalTask.notes&&<p style={{marginTop:10,fontSize:12,color:G.sub,fontStyle:"italic",borderTop:`1px solid ${G.border}`,paddingTop:10}}>📌 {finalTask.notes}</p>}
+            {finalTask.notes&&<p style={{marginTop:10,fontSize:12,color:G.sub,fontStyle:"italic",borderTop:"1px solid "+G.border,paddingTop:10}}>📌 {finalTask.notes}</p>}
           </div>
           <div style={{display:"flex",gap:10}}>
-            <button onClick={()=>{setStep("survey");setQIdx(0);setAnswers({});}} style={{flex:1,padding:"13px",borderRadius:13,fontWeight:500,fontSize:13,border:`2px solid ${G.border}`,color:G.sub}}>← Redo</button>
+            <button onClick={()=>{setStep("survey");setQIdx(0);setAnswers({});}} style={{flex:1,padding:"13px",borderRadius:13,fontWeight:500,fontSize:13,border:"2px solid "+G.border,color:G.sub}}>← Redo</button>
             <button onClick={confirmTask} disabled={sending} style={{flex:2,padding:"13px",borderRadius:13,fontWeight:600,fontSize:14,background:sending?G.teal:G.tealMid,color:"#fff",boxShadow:"0 4px 16px rgba(31,144,128,.3)",display:"flex",alignItems:"center",justifyContent:"center",gap:8}}>
-              {sending?<><Spinner size={16} color="#fff"/> Sending…</>:`Send to ${assignee.name.split(" ")[0]} →`}
+              {sending?<><Spinner size={16} color="#fff"/> Sending…</>:"Send to "+assignee.name.split(" ")[0]+" →"}
             </button>
           </div>
         </div>
@@ -484,7 +484,7 @@ Make options specific to a dental office. Cover: deadline, urgency, scope, notif
           </div>
           <h3 style={{fontFamily:"'Cormorant Garamond',serif",fontSize:24,color:G.navy,fontWeight:600,marginBottom:8}}>Task Sent!</h3>
           <p style={{fontSize:14,color:G.sub,marginBottom:16}}><strong style={{color:G.text}}>{finalTask?.title}</strong></p>
-          <div style={{display:"inline-flex",alignItems:"center",gap:10,padding:"10px 16px",background:G.tealLight,borderRadius:50,border:`1px solid ${G.border}`}}>
+          <div style={{display:"inline-flex",alignItems:"center",gap:10,padding:"10px 16px",background:G.tealLight,borderRadius:50,border:"1px solid "+G.border}}>
             <Avatar user={assignee} size={28}/>
             <div style={{textAlign:"left"}}>
               <div style={{fontSize:13,fontWeight:600,color:G.navy}}>{assignee.name}</div>
@@ -529,7 +529,7 @@ function TaskDetail({ task, currentUser, tasks, setTasks, onBack }) {
 
   return (
     <div style={{display:"flex",flexDirection:"column",height:"100%"}}>
-      <div style={{padding:"16px 20px",borderBottom:`1px solid ${G.border}`,background:G.surface}}>
+      <div style={{padding:"16px 20px",borderBottom:"1px solid "+G.border,background:G.surface}}>
         <button onClick={onBack} style={{display:"flex",alignItems:"center",gap:5,color:G.sub,fontSize:13,marginBottom:12}}>
           <svg width="14" height="14" fill="none" stroke={G.sub} strokeWidth="2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>Back to tasks
         </button>
@@ -544,17 +544,17 @@ function TaskDetail({ task, currentUser, tasks, setTasks, onBack }) {
           </div>
           <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
             {["open","inprogress","done"].filter(s=>s!==task.status).map(s=>(
-              <button key={s} onClick={()=>updateTask({...task,status:s})} style={{padding:"5px 11px",borderRadius:8,fontSize:12,fontWeight:500,border:`1.5px solid ${G.border}`,color:G.sub,background:G.surface}}>
+              <button key={s} onClick={()=>updateTask({...task,status:s})} style={{padding:"5px 11px",borderRadius:8,fontSize:12,fontWeight:500,border:"1.5px solid "+G.border,color:G.sub,background:G.surface}}>
                 {s==="inprogress"?"In Progress":s.charAt(0).toUpperCase()+s.slice(1)}
               </button>
             ))}
           </div>
         </div>
-        <div style={{marginTop:12,background:G.card,borderRadius:11,padding:14,border:`1px solid ${G.border}`}}>
+        <div style={{marginTop:12,background:G.card,borderRadius:11,padding:14,border:"1px solid "+G.border}}>
           {task.patientContext&&<div style={{display:"flex",gap:6,alignItems:"center",padding:"6px 10px",background:"#f0eafa",borderRadius:8,marginBottom:10,border:"1px solid #d4befa"}}><span>🦷</span><span style={{fontSize:12,color:"#4a2060",fontWeight:500}}>{task.patientContext}</span></div>}
           <p style={{fontSize:13,color:G.text,lineHeight:1.65,marginBottom:steps.length?12:0}}>{task.description}</p>
           <Checklist steps={steps} onUpdate={isEmployee?updateChecklist:undefined} readonly={isManager}/>
-          {task.notes&&<p style={{fontSize:12,color:G.sub,borderTop:`1px solid ${G.border}`,paddingTop:8,fontStyle:"italic"}}>📌 {task.notes}</p>}
+          {task.notes&&<p style={{fontSize:12,color:G.sub,borderTop:"1px solid "+G.border,paddingTop:8,fontStyle:"italic"}}>📌 {task.notes}</p>}
         </div>
         {isManager&&task.acknowledgedAt&&(
           <div style={{marginTop:10,display:"flex",alignItems:"center",gap:8,padding:"7px 12px",background:G.greenLight,borderRadius:9,border:"1px solid #b8dfc8"}}>
@@ -571,8 +571,8 @@ function TaskDetail({ task, currentUser, tasks, setTasks, onBack }) {
       </div>
 
       {isEmployee&&!task.acknowledgedAt&&(
-        <div style={{padding:"12px 20px",borderBottom:`1px solid ${G.border}`,background:"#fffdf5"}}>
-          <div style={{background:"linear-gradient(135deg,#fdf4e3,#fff8e8)",border:`1.5px solid ${G.accent}`,borderRadius:14,padding:"14px 16px",display:"flex",alignItems:"center",gap:12}}>
+        <div style={{padding:"12px 20px",borderBottom:"1px solid "+G.border,background:"#fffdf5"}}>
+          <div style={{background:"linear-gradient(135deg,#fdf4e3,#fff8e8)",border:"1.5px solid "+G.accent,borderRadius:14,padding:"14px 16px",display:"flex",alignItems:"center",gap:12}}>
             <div style={{flex:1}}>
               <p style={{fontSize:14,fontWeight:600,color:G.navy,marginBottom:2}}>New task assigned to you</p>
               <p style={{fontSize:12,color:G.sub}}>Tap to confirm you've seen it — Mela will be notified.</p>
@@ -597,7 +597,7 @@ function TaskDetail({ task, currentUser, tasks, setTasks, onBack }) {
                   <span style={{fontSize:12,fontWeight:600,color:G.navy}}>{isMe?"You":m.senderName}</span>
                   <span style={{fontSize:10,color:G.sub}}>{m.at}</span>
                 </div>
-                <div style={{padding:"10px 14px",fontSize:13,lineHeight:1.55,borderRadius:isMe?"14px 4px 14px 14px":"4px 14px 14px 14px",background:isMe?G.navy:G.surface,color:isMe?"#fff":G.text,border:!isMe?`1.5px solid ${G.border}`:"none",boxShadow:"0 1px 6px rgba(0,0,0,.05)"}}>{m.text}</div>
+                <div style={{padding:"10px 14px",fontSize:13,lineHeight:1.55,borderRadius:isMe?"14px 4px 14px 14px":"4px 14px 14px 14px",background:isMe?G.navy:G.surface,color:isMe?"#fff":G.text,border:!isMe?"1.5px solid "+G.border:"none",boxShadow:"0 1px 6px rgba(0,0,0,.05)"}}>{m.text}</div>
               </div>
             </div>
           );
@@ -605,11 +605,11 @@ function TaskDetail({ task, currentUser, tasks, setTasks, onBack }) {
         <div ref={bottomRef}/>
       </div>
 
-      <div style={{padding:"12px 20px",borderTop:`1px solid ${G.border}`,background:G.surface,display:"flex",gap:8}}>
+      <div style={{padding:"12px 20px",borderTop:"1px solid "+G.border,background:G.surface,display:"flex",gap:8}}>
         <textarea value={msg} onChange={e=>setMsg(e.target.value)}
           onKeyDown={e=>e.key==="Enter"&&!e.shiftKey&&(e.preventDefault(),sendMessage())}
           placeholder={isManager?"Send feedback or instructions…":"Send an update or question…"}
-          rows={2} style={{flex:1,padding:"10px 14px",borderRadius:12,border:`2px solid ${G.border}`,fontSize:13,color:G.text,background:G.card,lineHeight:1.5,transition:"border .15s"}}
+          rows={2} style={{flex:1,padding:"10px 14px",borderRadius:12,border:"2px solid "+G.border,fontSize:13,color:G.text,background:G.card,lineHeight:1.5,transition:"border .15s"}}
           onFocus={e=>e.target.style.borderColor=G.tealMid} onBlur={e=>e.target.style.borderColor=G.border}/>
         <button onClick={sendMessage} disabled={!msg.trim()} style={{width:44,borderRadius:12,flexShrink:0,background:msg.trim()?G.tealMid:G.border,display:"flex",alignItems:"center",justifyContent:"center"}}>
           <svg width="18" height="18" fill="white" viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
@@ -636,7 +636,7 @@ function LoginScreen({ onLogin }) {
         <p style={{fontSize:13,color:"rgba(255,255,255,.45)",marginBottom:16,textAlign:"center"}}>Select your profile to continue</p>
         <div style={{display:"flex",flexDirection:"column",gap:8}}>
           {STAFF.map(u=>(
-            <button key={u.id} onClick={()=>setSel(u.id)} style={{display:"flex",alignItems:"center",gap:14,padding:"12px 14px",borderRadius:13,textAlign:"left",transition:"all .18s",background:sel===u.id?"rgba(255,255,255,.14)":"rgba(255,255,255,.04)",border:`1.5px solid ${sel===u.id?"rgba(255,255,255,.3)":"rgba(255,255,255,.07)"}`}}>
+            <button key={u.id} onClick={()=>setSel(u.id)} style={{display:"flex",alignItems:"center",gap:14,padding:"12px 14px",borderRadius:13,textAlign:"left",transition:"all .18s",background:sel===u.id?"rgba(255,255,255,.14)":"rgba(255,255,255,.04)",border:sel===u.id?"1.5px solid rgba(255,255,255,.3)":"1.5px solid rgba(255,255,255,.07)"}}>
               <Avatar user={u} size={40}/>
               <div style={{flex:1}}>
                 <div style={{color:"#fff",fontWeight:500,fontSize:14}}>{u.name}</div>
@@ -711,7 +711,7 @@ function App() {
             <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:18}}>
               <div>
                 <h1 style={{fontFamily:"'Cormorant Garamond',serif",fontSize:26,color:G.navy,fontWeight:600}}>{user.role==="manager"?"All Tasks":"My Tasks"}</h1>
-                <p style={{fontSize:13,color:G.sub,marginTop:2}}>{mine.length} tasks{openCount>0?`, ${openCount} open`:" — all done!"}</p>
+                <p style={{fontSize:13,color:G.sub,marginTop:2}}>{mine.length} tasks{openCount>0?", "+openCount+" open":" — all done!"}</p>
               </div>
               {user.role==="manager"&&(
                 <button onClick={()=>setView("newTask")} style={{display:"flex",alignItems:"center",gap:7,padding:"10px 18px",borderRadius:12,background:G.tealMid,color:"#fff",fontWeight:600,fontSize:13,boxShadow:"0 4px 16px rgba(31,144,128,.3)"}}>
@@ -720,12 +720,12 @@ function App() {
               )}
             </div>
             {user.role==="manager"&&(
-              <div style={{display:"flex",gap:6,marginBottom:16,background:G.surface,padding:4,borderRadius:24,width:"fit-content",border:`1px solid ${G.border}`}}>
-                <button className={`tab-btn${tab==="active"?" active":""}`} onClick={()=>setTab("active")}>Active Tasks</button>
-                <button className={`tab-btn${tab==="recurring"?" active":""}`} onClick={()=>setTab("recurring")}>♻️ Recurring</button>
+              <div style={{display:"flex",gap:6,marginBottom:16,background:G.surface,padding:4,borderRadius:24,width:"fit-content",border:"1px solid "+G.border}}>
+                <button className={"tab-btn"+(tab==="active"?" active":"")} onClick={()=>setTab("active")}>Active Tasks</button>
+                <button className={"tab-btn"+(tab==="recurring"?" active":"")} onClick={()=>setTab("recurring")}>♻️ Recurring</button>
               </div>
             )}
-            <div style={{background:G.surface,borderRadius:18,border:`1.5px solid ${G.border}`,overflow:"hidden",boxShadow:G.shadow}}>
+            <div style={{background:G.surface,borderRadius:18,border:"1.5px solid "+G.border,overflow:"hidden",boxShadow:G.shadow}}>
               {(tab==="active"||user.role==="employee") ? (
                 mine.length===0 ? (
                   <div style={{textAlign:"center",padding:"52px 24px",color:G.sub}}>
@@ -744,7 +744,7 @@ function App() {
                       const needsAck=user.role==="employee"&&!task.acknowledgedAt;
                       return (
                         <button key={task.id} onClick={()=>selectTask(task)}
-                          style={{display:"flex",gap:13,alignItems:"flex-start",padding:"14px 16px",background:G.surface,borderRadius:15,border:`2px solid ${hasUnread||needsAck?G.tealMid:G.border}`,textAlign:"left",transition:"all .18s",boxShadow:G.shadow}}
+                          style={{display:"flex",gap:13,alignItems:"flex-start",padding:"14px 16px",background:G.surface,borderRadius:15,border:(hasUnread||needsAck)?"2px solid "+G.tealMid:"2px solid "+G.border,textAlign:"left",transition:"all .18s",boxShadow:G.shadow}}
                           onMouseOver={e=>e.currentTarget.style.boxShadow=G.shadowMd}
                           onMouseOut={e=>e.currentTarget.style.boxShadow=G.shadow}>
                           {assignee&&<Avatar user={assignee} size={40}/>}
@@ -761,7 +761,7 @@ function App() {
                             {donePct!==null&&steps.length>0&&(
                               <div style={{marginBottom:5}}>
                                 <div style={{height:3,background:G.border,borderRadius:3,overflow:"hidden"}}>
-                                  <div style={{height:"100%",width:`${donePct}%`,background:donePct===100?G.green:G.tealMid,borderRadius:3,transition:"width .3s"}}/>
+                                  <div style={{height:"100%",width:donePct+"%",background:donePct===100?G.green:G.tealMid,borderRadius:3,transition:"width .3s"}}/>
                                 </div>
                                 <span style={{fontSize:10,color:donePct===100?G.green:G.sub,marginTop:2,display:"block"}}>{steps.filter(s=>s.done).length}/{steps.length} steps done</span>
                               </div>
@@ -794,7 +794,7 @@ function App() {
         )}
 
         {view==="taskDetail"&&selected&&(
-          <div className="fade-up" style={{background:G.surface,borderRadius:18,border:`1.5px solid ${G.border}`,overflow:"hidden",boxShadow:G.shadow,display:"flex",flexDirection:"column",height:"calc(100vh - 120px)"}}>
+          <div className="fade-up" style={{background:G.surface,borderRadius:18,border:"1.5px solid "+G.border,overflow:"hidden",boxShadow:G.shadow,display:"flex",flexDirection:"column",height:"calc(100vh - 120px)"}}>
             <TaskDetail
               task={tasks.find(t=>t.id===selected.id)||selected}
               currentUser={user} tasks={tasks} setTasks={setTasks}
